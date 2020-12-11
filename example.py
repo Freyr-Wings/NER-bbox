@@ -15,7 +15,8 @@ model = AlbertForNERBox.from_pretrained(
     output_attentions=False,
     output_hidden_states=False,
 )
-
+model.to(device)
+model.eval()
 cls_name = ["LOC", "ORG", "PER", "MISC"]
 
 
