@@ -25,16 +25,17 @@ class AlbertForNERBox(AlbertPreTrainedModel):
         super().__init__(config)
         self.num_labels = config.num_labels
         self.hidden_size = config.hidden_size
-        self.anchors = [1.36, 4.00]
+        self.anchors = range(1, 5)  # [1.36, 4.00]
         self.num_anchor = len(self.anchors)
         self.num_classes = 4
-        self.obj_scale = 1
-        self.noobj_scale = 100
+        self.obj_scale = 40
+        self.noobj_scale = 400
 
         self.albert = AlbertModel(config, add_pooling_layer=False)
-        self.bbox_trans = nn.Linear(
+        self.bbox_trans = MultiNonLinearClassifier(
             self.hidden_size,
-            self.num_anchor * (2 + self.num_classes)
+            self.num_anchor * (2 + self.num_classes),
+            0.1
         )
 
         self.mse_loss = nn.MSELoss()
