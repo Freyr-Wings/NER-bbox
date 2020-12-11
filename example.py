@@ -24,7 +24,7 @@ def visualize(example):
     example_enc = tokenizer.encode_plus(example, return_tensors='pt', return_attention_mask=True, padding='max_length',
                                         max_length=156)
     example_tokens = tokenizer.convert_ids_to_tokens(example_enc['input_ids'][0])
-    
+
     num_cls = len(cls_name)
     num_token = torch.sum(example_enc['attention_mask']).long().item()
 
