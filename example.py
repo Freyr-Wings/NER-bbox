@@ -45,7 +45,7 @@ def visualize(example):
 
     pred_tokens = torch.zeros(num_cls, num_token, dtype=torch.long)
     pred_conf = pred_bbox[..., 0]
-    pred_obj = pred_conf > 0.5
+    pred_obj = pred_conf > 0.4
 
     if torch.sum(pred_obj) > 0:
         pred_span = pred_bbox[..., 1:3][pred_obj]
@@ -55,7 +55,7 @@ def visualize(example):
         # pred_dec_span = offset_mapping[torch.round(pred_span).long()].view(-1, 2)
 
         for i, span in enumerate(pred_span):
-            for j in range(span[0] - 1, span[1] - 1):
+            for j in range(span[0], span[1]):
                 pred_tokens[pred_cls[i], j] = 1
 
     row_format = "{:>15}" * (num_token + 1)
